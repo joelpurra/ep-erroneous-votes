@@ -8,7 +8,8 @@ Developed during the [Europarl Hackathon](http://europarl.me/), in preparation f
 
 ## Usage
 
-1. Download [ep_votes.json.xz](http://parltrack.euwiki.org/dumps/ep_votes.json.xz) and unpack it somewhere. The unpacked `ep_votes.json` file is big (500MB+); please see [the schema](http://parltrack.euwiki.org/dumps/schema.html) for an overview.
+1. Install [jq](http://stedolan.github.io/jq/) for the JSON processing.
+1. Download a fresh [ep_votes.json.xz](http://parltrack.euwiki.org/dumps/ep_votes.json.xz) and unpack it somewhere. The unpacked `ep_votes.json` file is big (500MB+); please see [the schema](http://parltrack.euwiki.org/dumps/schema.html) for an overview.
 1. Run the scripts.
   - `erroneous-votes.sh [indir [outdir]]` creates JSON dumps with erroneous votes for a given `ep_votes.json`.
   - `vote-counts.sh [indir [outdir]]` shows the number of votings and votes for a given `ep_votes.json`.
