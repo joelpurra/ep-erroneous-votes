@@ -1,6 +1,8 @@
 #!/bin/bash
 #set -e
 
+# Extract votings with corrections, normalize the names of those with correctins, and list the worst "offenders".
+
 now=$(date -u +%FT%TZ)
 indir="${1:-"$PWD"}"
 outdir="${2:-"$PWD/$now"}"
@@ -12,6 +14,8 @@ echo "Output directory: $outdir"
 
 # http://parltrack.euwiki.org/dumps/schema.html
 
+# Select votings with at least one correction.
+# Then select the relevant values, including all correction objects.
 read -d '' getVotingsWithCorrectionals <<"EOF"
 .
 | select(
@@ -48,6 +52,8 @@ read -d '' getVotingsWithCorrectionals <<"EOF"
 ]
 EOF
 
+# Normalize correction arrays of name strings or person objects, to only name strings.
+# names(n) checks for null arrays, arrays that are person objects, or just name strings.
 read -d '' cleanCorrectionalNameObjectArrays <<"EOF"
 def names(n):
 	[
@@ -58,7 +64,7 @@ def names(n):
 				)
 			else
 				empty
-				end
+			end
 		)
 	];
 

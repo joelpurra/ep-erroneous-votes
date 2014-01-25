@@ -1,6 +1,8 @@
 #!/bin/bash
 #set -e
 
+# Extract vote counts per voting, and display number of votings and number of votes.
+
 now=$(date -u +%FT%TZ)
 indir="${1:-"$PWD"}"
 outdir="${2:-"$PWD"}/$now"
@@ -10,8 +12,13 @@ echo "Current date: $now"
 echo "Input directory: $indir"
 echo "Output directory: $outdir"
 
+trim(){
+	sed -E 's/^[[:space:]]*(.*)[[:space:]]*$/\1/'
+}
+
 # http://parltrack.euwiki.org/dumps/schema.html
 
+# Get the sum of abstain, against and for vote counts.
 read -d '' getTotalVoteCountsPerVoting <<"EOF"
 .
 | (
@@ -44,10 +51,6 @@ read -d '' getTotalVoteCountsPerVoting <<"EOF"
 EOF
 
 <"$indir/ep_votes.json" jq --online-input "$getTotalVoteCountsPerVoting" > "$outdir/votecounts.log"
-
-trim(){
-	sed -E 's/^[[:space:]]*(.*)[[:space:]]*$/\1/'
-}
 
 totalVotings=$(<"$outdir/votecounts.log" wc -l | trim)
 
