@@ -5,7 +5,7 @@
 
 now=$(date -u +%FT%TZ)
 infile="${1:-"$PWD/ep_votes.json"}"
-outdir="${2:-"$PWD"}/$now"
+outdir="${2:-"$PWD/$now"}"
 mkdir -p "$outdir"
 
 echo "Current date: $now"
@@ -20,7 +20,7 @@ trim(){
 
 # Get the sum of abstain, against and for vote counts.
 read -d '' getTotalVoteCountsPerVoting <<"EOF"
-.
+.[]
 | (
 	if .Abstain then
 		(
@@ -50,11 +50,11 @@ read -d '' getTotalVoteCountsPerVoting <<"EOF"
 )
 EOF
 
-<"$infile" jq --online-input "$getTotalVoteCountsPerVoting" > "$outdir/votecounts.log"
+<"$infile" jq "$getTotalVoteCountsPerVoting" > "$outdir/votecounts.log"
 
 totalVotings=$(<"$outdir/votecounts.log" wc -l | trim)
 
-totalVotes=$(paste -s -d + "$outdir/votecounts.log" | bc)
+totalVotes=$(paste -s -d "+" "$outdir/votecounts.log" | bc)
 
 echo "Total votings in dataset: $totalVotings"
 echo "Total votes in dataset: $totalVotes"
