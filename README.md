@@ -8,7 +8,7 @@ Using [open data dumps](http://parltrack.euwiki.org/dumps) from [Parltrack](http
 
 1. Download [ep_votes.json.xz](http://parltrack.euwiki.org/dumps/ep_votes.json.xz) and unpack it somewhere. The unpacked `ep_votes.json` file is big (500MB+); please see [the schema](http://parltrack.euwiki.org/dumps/schema.html) for an overview.
 1. Run the scripts.
-  - `extract-and-prepare.sh [indir [outdir]]` creates JSON dumps with erroneous votes.
+  - `erroneous-votes.sh [indir [outdir]]` creates JSON dumps with erroneous votes.
   - `vote-counts.sh [indir [outdir]]` creates lists of number of votes.
 
 
