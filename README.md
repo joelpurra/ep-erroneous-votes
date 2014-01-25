@@ -1,6 +1,8 @@
 # [ep-erroneous-votes](https://github.com/joelpurra/ep-erroneous-votes)
 
-Using [open data dumps](http://parltrack.euwiki.org/dumps) from [Parltrack](http://parltrack.euwiki.org/) to analyze erroneous, and subsequently corrected, votes by Members of the European Parliaments.
+Using [open data dumps](http://parltrack.euwiki.org/dumps) from [Parltrack](http://parltrack.euwiki.org/) to analyze erroneous, and subsequently corrected, votes by [Members](http://www.europarl.europa.eu/meps/) of the [European Parliament](http://www.europarl.europa.eu/).
+
+Developed during the [Europarl Hackathon](http://europarl.me/), in preparation for the [European elections 2014](http://www.elections2014.eu/).
 
 
 
@@ -8,13 +10,13 @@ Using [open data dumps](http://parltrack.euwiki.org/dumps) from [Parltrack](http
 
 1. Download [ep_votes.json.xz](http://parltrack.euwiki.org/dumps/ep_votes.json.xz) and unpack it somewhere. The unpacked `ep_votes.json` file is big (500MB+); please see [the schema](http://parltrack.euwiki.org/dumps/schema.html) for an overview.
 1. Run the scripts.
-  - `erroneous-votes.sh [indir [outdir]]` creates JSON dumps with erroneous votes.
-  - `vote-counts.sh [indir [outdir]]` creates lists of number of votes.
+  - `erroneous-votes.sh [indir [outdir]]` creates JSON dumps with erroneous votes for a given `ep_votes.json`.
+  - `vote-counts.sh [indir [outdir]]` shows the number of votings and votes for a given `ep_votes.json`.
 
 
 ## Todo
 
-- Write a TODO list.
+- Create a web page to consume and display the results - but in a separate repository.
 
 
 
