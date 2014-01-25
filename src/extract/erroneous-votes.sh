@@ -18,7 +18,7 @@ echo "Output directory: $outdir"
 # Then select the relevant values, including all correction objects.
 read -d '' getVotingsWithCorrectionals <<"EOF"
 .
-| select(
+| map(select(
 	(
 		(
 			.Abstain.correctional | length
@@ -30,26 +30,24 @@ read -d '' getVotingsWithCorrectionals <<"EOF"
 			.For.correctional | length
 		)
 	) > 0
-)
-| [
-	{
-		dossierid,
-		title,
-		ts,
-		abstain: {
-			total: .Abstain.total | tonumber,
-			correctional: .Abstain.correctional
-		},
-		against: {
-			total: .Against.total | tonumber,
-			correctional: .Against.correctional
-		},
-		for: {
-			total: .For.total | tonumber,
-			correctional: .For.correctional
-		}
+))
+| map({
+	dossierid,
+	title,
+	ts,
+	abstain: {
+		total: .Abstain.total | tonumber,
+		correctional: .Abstain.correctional
+	},
+	against: {
+		total: .Against.total | tonumber,
+		correctional: .Against.correctional
+	},
+	for: {
+		total: .For.total | tonumber,
+		correctional: .For.correctional
 	}
-]
+})
 EOF
 
 # Normalize correction arrays of name strings or person objects, to only name strings.
@@ -68,26 +66,24 @@ def names(n):
 		)
 	];
 
-.[]
-| [
-	{
-		dossierid,
-		title,
-		ts,
-		abstain: {
-			total: .abstain.total,
-			names: names(.abstain.correctional)
-		},
-		against: {
-			total: .against.total,
-			names: names(.against.correctional)
-		},
-		for: {
-			total: .for.total,
-			names: names(.for.correctional)
-		}
+.
+| map({
+	dossierid,
+	title,
+	ts,
+	abstain: {
+		total: .abstain.total,
+		names: names(.abstain.correctional)
+	},
+	against: {
+		total: .against.total,
+		names: names(.against.correctional)
+	},
+	for: {
+		total: .for.total,
+		names: names(.for.correctional)
 	}
-]
+})
 EOF
 
 <"$infile" jq "$getVotingsWithCorrectionals" > "$outdir/correctionals.json"
