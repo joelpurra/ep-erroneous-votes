@@ -4,12 +4,12 @@
 # Extract votings with corrections, normalize the names of those with correctins, and list the worst "offenders".
 
 now=$(date -u +%FT%TZ)
-indir="${1:-"$PWD"}"
+infile="${1:-"$PWD/ep_votes.json"}"
 outdir="${2:-"$PWD/$now"}"
 mkdir -p "$outdir"
 
 echo "Current date: $now"
-echo "Input directory: $indir"
+echo "Input ep_votes.json file: $infile"
 echo "Output directory: $outdir"
 
 # http://parltrack.euwiki.org/dumps/schema.html
@@ -90,6 +90,8 @@ def names(n):
 ]
 EOF
 
-<"$indir/ep_votes.json" jq --online-input "$getVotingsWithCorrectionals" > "$outdir/correctionals.json"
+<"$infile" jq "$getVotingsWithCorrectionals" > "$outdir/correctionals.json"
 
-<"$indir/correctionals.json" jq "$cleanCorrectionalNameObjectArrays" > "$outdir/correctionals.name-strings.json"
+<"$outdir/correctionals.json" jq "$cleanCorrectionalNameObjectArrays" > "$outdir/correctionals.name-strings.json"
+
+<"$outdir/correctionals.name-strings.json" jq '.[] | .abstain.names + .against.names + .for.names | .[]' | grep --invert-match '\[\]' | sort | uniq -c | sort -n > "$outdir/worst-offenders.json"

@@ -4,12 +4,12 @@
 # Extract vote counts per voting, and display number of votings and number of votes.
 
 now=$(date -u +%FT%TZ)
-indir="${1:-"$PWD"}"
+infile="${1:-"$PWD/ep_votes.json"}"
 outdir="${2:-"$PWD"}/$now"
 mkdir -p "$outdir"
 
 echo "Current date: $now"
-echo "Input directory: $indir"
+echo "Input ep_votes.json file: $infile"
 echo "Output directory: $outdir"
 
 trim(){
@@ -50,7 +50,7 @@ read -d '' getTotalVoteCountsPerVoting <<"EOF"
 )
 EOF
 
-<"$indir/ep_votes.json" jq --online-input "$getTotalVoteCountsPerVoting" > "$outdir/votecounts.log"
+<"$infile" jq --online-input "$getTotalVoteCountsPerVoting" > "$outdir/votecounts.log"
 
 totalVotings=$(<"$outdir/votecounts.log" wc -l | trim)
 
