@@ -90,4 +90,4 @@ EOF
 
 <"$outdir/correctionals.json" jq "$cleanCorrectionalNameObjectArrays" > "$outdir/correctionals.name-strings.json"
 
-<"$outdir/correctionals.name-strings.json" jq '.[] | .abstain.names + .against.names + .for.names | .[]' | grep --invert-match '\[\]' | sort | uniq -c | sort -n > "$outdir/worst-offenders.json"
+<"$outdir/correctionals.name-strings.json" jq '.[] | .abstain.names + .against.names + .for.names | .[]' | grep --invert-match '\[\]' | sort | uniq -c | sort -n > "$outdir/worst-offenders.txt"
