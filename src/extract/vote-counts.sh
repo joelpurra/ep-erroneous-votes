@@ -4,8 +4,9 @@
 # Extract vote counts per voting, and display number of votings and number of votes.
 
 now=$(date -u +%FT%TZ)
+nowpath=$(echo "$now" | tr -d ':')
 infile="${1:-"$PWD/ep_votes.json"}"
-outdir="${2:-"$PWD/$now"}"
+outdir="${2:-"$PWD/$nowpath"}"
 mkdir -p "$outdir"
 
 echo "Current date: $now"
