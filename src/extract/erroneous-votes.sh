@@ -51,6 +51,13 @@ read -d '' getVotingsWithCorrectionals <<"EOF"
 })
 EOF
 
+# Sort an array of votings.
+read -d '' sortVotingsByTimestampDescending <<"EOF"
+.
+| sort_by(.ts)
+| reverse
+EOF
+
 # Normalize correction arrays of name strings or person objects, to only name strings.
 # names(n) checks for null arrays, arrays that are person objects, or just name strings.
 read -d '' cleanCorrectionalNameObjectArrays <<"EOF"
@@ -87,7 +94,9 @@ def names(n):
 })
 EOF
 
-<"$infile" jq "$getVotingsWithCorrectionals" > "$outdir/correctionals.json"
+<"$infile" jq "$getVotingsWithCorrectionals" > "$outdir/correctionals.unsorted.json"
+
+<"$outdir/correctionals.unsorted.json" jq "$sortVotingsByTimestampDescending" > "$outdir/correctionals.json"
 
 <"$outdir/correctionals.json" jq "$cleanCorrectionalNameObjectArrays" > "$outdir/correctionals.name-strings.json"
 
