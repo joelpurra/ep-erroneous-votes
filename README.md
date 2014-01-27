@@ -27,10 +27,9 @@ Creates JSON dumps with erroneous votes for a given `ep_votes.json`.
 Shows the number of votings and votes for a given `ep_votes.json`.
 
 
+### Displaying results
 
-## Todo
-
-- Create a web page to consume and display the results - but in a separate repository.
+Use [`ep-the-corrections`](https://github.com/joelpurra/ep-the-corrections) to consume the generated data.
 
 
 
