@@ -58,46 +58,9 @@ read -d '' sortVotingsByTimestampDescending <<"EOF"
 | reverse
 EOF
 
-# Normalize correction arrays of name strings or person objects, to only name strings.
-# names(n) checks for null arrays, arrays that are person objects, or just name strings.
-read -d '' cleanCorrectionalNameObjectArrays <<"EOF"
-def names(n):
-	[
-		(
-			if n then
-				(
-					n[].orig // n[] // empty
-				)
-			else
-				empty
-			end
-		)
-	];
-
-.
-| map({
-	dossierid,
-	title,
-	ts,
-	abstain: {
-		total: .abstain.total,
-		names: names(.abstain.correctional)
-	},
-	against: {
-		total: .against.total,
-		names: names(.against.correctional)
-	},
-	for: {
-		total: .for.total,
-		names: names(.for.correctional)
-	}
-})
-EOF
-
 <"$infile" jq "$getVotingsWithCorrectionals" > "$outdir/correctionals.unsorted.json"
 
 <"$outdir/correctionals.unsorted.json" jq "$sortVotingsByTimestampDescending" > "$outdir/correctionals.json"
 
-<"$outdir/correctionals.json" jq "$cleanCorrectionalNameObjectArrays" > "$outdir/correctionals.name-strings.json"
-
-<"$outdir/correctionals.name-strings.json" jq '.[] | .abstain.names + .against.names + .for.names | .[]' | grep --invert-match '\[\]' | sort | uniq -c | sort -n > "$outdir/worst-offenders.txt"
+# TODO: completely rewrite worst-offenders to use IDs instead of names - names are broken because of PDF parsing problems!
+#<"$outdir/correctionals.name-strings.json" jq '.[] | .abstain.names + .against.names + .for.names | .[]' | grep --invert-match '\[\]' | sort | uniq -c | sort -n > "$outdir/worst-offenders.txt"
