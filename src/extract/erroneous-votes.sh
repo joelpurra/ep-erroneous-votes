@@ -101,16 +101,33 @@ EOF
 
 # Group corrections by MEP database ID, or the faked ID based on MEP name.
 read -d '' groupCorrectionsByMEP <<"EOF"
+def flatten:
+	reduce
+		.[] as $item
+		(
+			[];
+			. + $item
+		);
+
+def keyCounterObject(key):
+	key as $key
+	| .
+	+
+	(
+		[
+			{
+				key: $key,
+				value: ((.[$key] // 0) + 1)
+			}
+		]
+		| from_entries
+	);
+
 .
 | map(
 	(.abstain.correctors + .against.correctors + .for.correctors)
 )
-| reduce
-	.[] as $item
-	(
-		[];
-		. + $item
-	)
+| flatten
 | group_by(.id)
 | map(reduce
 	.[] as $item
@@ -125,20 +142,7 @@ read -d '' groupCorrectionsByMEP <<"EOF"
 			corrections: (
 					.corrections + 1
 				),
-			names:
-				(
-					.names
-					+
-					(
-						[
-							{
-								key: $item.name,
-								value: ((.names[$item.name] // 0) + 1)
-							}
-						]
-						| from_entries
-					)
-				),
+			names: .names | keyCounterObject($item.name),
 			faked: (
 					.faked or ($item.faked // false)
 				)
