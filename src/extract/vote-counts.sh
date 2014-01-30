@@ -3,6 +3,16 @@
 
 # Extract vote counts per voting, and display number of votings and number of votes.
 
+
+# TODO: use these somewhere
+# Number of votings with corrections
+#<correctionals.json jq '. | length'
+# Number of total votes in filtered set
+#<correctionals.json jq '. | reduce .[] as $item (0; . + ($item.abstain.total + $item.against.total + $item.for.total))'
+# Number of corrected votes
+#<correctionals.json jq '. | reduce .[] as $item (0; . + (($item.abstain.correctional | length) + ($item.against.correctional | length) + ($item.for.correctional | length)))'
+
+
 now=$(date -u +%FT%TZ)
 nowpath=$(echo "$now" | tr -d ':')
 infile="${1:-"$PWD/ep_votes.json"}"
@@ -20,6 +30,7 @@ trim(){
 # http://parltrack.euwiki.org/dumps/schema.html
 
 # Get the sum of abstain, against and for vote counts.
+# TODO: convert to a reduce operation
 read -d '' getTotalVoteCountsPerVoting <<"EOF"
 .[]
 | (
@@ -51,10 +62,13 @@ read -d '' getTotalVoteCountsPerVoting <<"EOF"
 )
 EOF
 
+# TODO: convert to a reduce operation
 <"$infile" jq "$getTotalVoteCountsPerVoting" > "$outdir/votecounts.log"
 
+# TODO: convert to a reduce operation
 totalVotings=$(<"$outdir/votecounts.log" wc -l | trim)
 
+# TODO: convert to a reduce operation
 totalVotes=$(paste -s -d "+" "$outdir/votecounts.log" | bc)
 
 echo "Total votings in dataset: $totalVotings"
