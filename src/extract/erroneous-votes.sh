@@ -120,7 +120,7 @@ read -d '' groupCorrectionsByMEP <<"EOF"
 	(
 		{
 			corrections: 0,
-			names: [],
+			names: {},
 			faked: false
 		};
 		{
@@ -130,10 +130,17 @@ read -d '' groupCorrectionsByMEP <<"EOF"
 				),
 			names:
 				(
+					.names
+					+
 					(
-						.names + [ $item.name ]
+						[
+							{
+								key: $item.name,
+								value: ((.names[$item.name] // 0) + 1)
+							}
+						]
+						| from_entries
 					)
-				| unique
 				),
 			faked: (
 					.faked or ($item.faked // false)
