@@ -60,6 +60,15 @@ EOF
 # TODO: break out some functions as a library?
 # TODO: remove hardcoded "name" exceptions from totalAsNumber, when the upstream data has been cleaned
 read -d '' getAggregates <<"EOF"
+def withCorrections:
+	map(select(
+				(
+					(.Abstain.correctional | length)
+					+ (.Against.correctional | length)
+					+ (.For.correctional | length)
+				) > 0
+			));
+
 def totalAsNumber:
 	if (. == "OPRAVY HLASOVÁNÍ") or (. == "ПОПРАВКИ В ПОДАДЕНИТЕ ГЛАСОВЕ И НАМЕРЕНИЯ ЗА ГЛАСУВАНЕ") then
 		0
@@ -74,6 +83,30 @@ def totalAsNumber:
 def getAggregates:
 	{
 		"votings": length,
+		"votes": (
+			reduce .[] as $item
+			(
+				0;
+				.
+				+ (
+					($item.Abstain.total | totalAsNumber)
+					+ ($item.Against.total | totalAsNumber)
+					+ ($item.For.total | totalAsNumber)
+				)
+			)
+		),
+		"corrected-votes": (
+			reduce .[] as $item
+			(
+				0;
+				.
+				+ (
+					($item.Abstain.correctional | length)
+					+ ($item.Against.correctional | length)
+					+ ($item.For.correctional | length)
+				)
+			)
+		),
 		"date-range": {
 			newest: (max_by(.ts) | .ts),
 			oldest: (min_by(.ts) | .ts)
@@ -82,45 +115,10 @@ def getAggregates:
 
 .
 | {
-	"complete-dataset": (
-		getAggregates
-		+ {
-			"votes": (
-				reduce .[] as $item
-				(
-					0;
-					.
-					+ (
-						($item.Abstain.total | totalAsNumber)
-						+ ($item.Against.total | totalAsNumber)
-						+ ($item.For.total | totalAsNumber)
-					)
-				)
-			)
-		}),
+	"complete-dataset": getAggregates,
 	"with-corrections": (
-		map(select(
-					(
-						(.Abstain.correctional | length)
-						+ (.Against.correctional | length)
-						+ (.For.correctional | length)
-					) > 0
-				))
+		withCorrections
 		| getAggregates
-		+ {
-			"votes": (
-				reduce .[] as $item
-				(
-					0;
-					.
-					+ (
-						($item.Abstain.correctional | length)
-						+ ($item.Against.correctional | length)
-						+ ($item.For.correctional | length)
-					)
-				)
-			)
-		}
 	)
 }
 EOF

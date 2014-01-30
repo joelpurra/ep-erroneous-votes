@@ -18,20 +18,17 @@ echo "Output directory: $outdir"
 # Select votings with at least one correction.
 # Then select the relevant values, including all correction objects.
 read -d '' getVotingsWithCorrectionals <<"EOF"
+def withCorrections:
+	map(select(
+				(
+					(.Abstain.correctional | length)
+					+ (.Against.correctional | length)
+					+ (.For.correctional | length)
+				) > 0
+			));
+
 .
-| map(select(
-	(
-		(
-			.Abstain.correctional | length
-		)
-		+ (
-			.Against.correctional | length
-		)
-		+ (
-			.For.correctional | length
-		)
-	) > 0
-))
+| withCorrections
 | map({
 	dossierid,
 	title,
