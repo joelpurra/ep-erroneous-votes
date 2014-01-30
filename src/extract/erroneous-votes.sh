@@ -58,9 +58,96 @@ read -d '' sortVotingsByTimestampDescending <<"EOF"
 | reverse
 EOF
 
+# Normalize correction arrays of name strings or person objects, to only objects - even if some have to be faked.
+# names(n) checks for null arrays, arrays that are person objects, or just name strings which are converted into objects.
+read -d '' cleanCorrectionalNameObjectArrays <<"EOF"
+def cleanedMepObjectArray(n):
+	if n then
+		n
+		| map(
+			if (. | type) == "string" then
+				{
+					id: .,
+					name: .,
+					faked: true
+				}
+			else
+				{
+					id,
+					name: .orig
+				}
+			end
+		)
+	else
+		[]
+	end;
+
+.
+| map({
+	dossierid,
+	title,
+	ts,
+	abstain: {
+		total: .abstain.total,
+		correctors: cleanedMepObjectArray(.abstain.correctional)
+	},
+	against: {
+		total: .against.total,
+		correctors: cleanedMepObjectArray(.against.correctional)
+	},
+	for: {
+		total: .for.total,
+		correctors: cleanedMepObjectArray(.for.correctional)
+	}
+})
+EOF
+
+# Group corrections by MEP database ID, or the faked ID based on MEP name.
+read -d '' groupCorrectionsByMEP <<"EOF"
+.
+| map(
+	(.abstain.correctors + .against.correctors + .for.correctors)
+)
+| reduce
+	.[] as $item
+	(
+		[];
+		. + $item
+	)
+| group_by(.id)
+| map(reduce
+	.[] as $item
+	(
+		{
+			corrections: 0,
+			names: [],
+			faked: false
+		};
+		{
+			id: $item.id,
+			corrections: (
+					.corrections + 1
+				),
+			names:
+				(
+					(
+						.names + [ $item.name ]
+					)
+				| unique
+				),
+			faked: (
+					.faked or ($item.faked // false)
+				)
+		}
+	)
+)
+| sort_by(.corrections)
+EOF
+
 <"$infile" jq "$getVotingsWithCorrectionals" > "$outdir/correctionals.unsorted.json"
 
 <"$outdir/correctionals.unsorted.json" jq "$sortVotingsByTimestampDescending" > "$outdir/correctionals.json"
 
-# TODO: completely rewrite worst-offenders to use IDs instead of names - names are broken because of PDF parsing problems!
-#<"$outdir/correctionals.name-strings.json" jq '.[] | .abstain.names + .against.names + .for.names | .[]' | grep --invert-match '\[\]' | sort | uniq -c | sort -n > "$outdir/worst-offenders.txt"
+<"$outdir/correctionals.json" jq "$cleanCorrectionalNameObjectArrays" > "$outdir/correctionals.mep-objects.json"
+
+<"$outdir/correctionals.mep-objects.json" jq "$groupCorrectionsByMEP" > "$outdir/correctionals.grouped-by-mep.json"
