@@ -33,6 +33,12 @@ Use [`ep-the-corrections`](https://github.com/joelpurra/ep-the-corrections) to c
 
 
 
+## Todo
+
+- Split up extraction files to several pieces, so the entire script doesn't have to run every time. Most useful during development, as a complete run takes too long.
+- Output aggregate data, such as total and filtered number of votings/votes and corrections, number of MEPs, votes, corrections per MEP, first/last voting dates, etcetera. Use a JSON format, and then update downstream visualization.
+
+
 ## License
 
 Copyright (c) 2014, [Joel Purra](http://joelpurra.com/) All rights reserved.
