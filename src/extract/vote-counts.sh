@@ -133,7 +133,7 @@ echo "{}" > "$outdir/aggregates.json"
 # cksum "$infile" | cut -d ' ' -f 2
 # Maybe wc?
 # wc "$infile" | awk '{print $3}'
-echo "{\"filename\": \"$infileBasename\"}" > "$outdir/aggregates.file-info.json"
+echo "{\"filename\": \"$infileBasename\", \"generated-at\": \"$now\"}" > "$outdir/aggregates.file-info.json"
 
 <"$infile" jq "$getAggregates" > "$outdir/aggregates.votings.json"
 
