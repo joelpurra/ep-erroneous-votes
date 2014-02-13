@@ -1,6 +1,6 @@
 # [ep-erroneous-votes](https://github.com/joelpurra/ep-erroneous-votes)
 
-For more information, see the [projects related to the European Parliament](http://joelpurra.com/r/euparl) page.
+For more background information, see the [projects related to the European Parliament](http://joelpurra.com/r/euparl) page.
 
 Using [open data dumps](http://parltrack.euwiki.org/dumps) from [Parltrack](http://parltrack.euwiki.org/) to analyze erroneous, and subsequently corrected, votes by [Members](http://www.europarl.europa.eu/meps/) of the [European Parliament](http://www.europarl.europa.eu/).
 
@@ -37,8 +37,8 @@ Use [`ep-the-corrections`](https://github.com/joelpurra/ep-the-corrections) to c
 
 ## Todo
 
-- Split up extraction files to several pieces, so the entire script doesn't have to run every time. Most useful during development, as a complete run takes too long.
-- Output aggregate data, such as total and filtered number of votings/votes and corrections, number of MEPs, votes, corrections per MEP, first/last voting dates, etcetera. Use a JSON format, and then update downstream visualization.
+&#9744; Split up extraction files to several pipe-able pieces, so the entire script doesn't have to run every time. Most useful during development, as a complete run takes too long.  
+&#9745; Output aggregate data, such as total and filtered number of votings/votes and corrections, number of MEPs, votes, corrections per MEP, first/last voting dates, etcetera. Use a JSON format, and then update downstream visualization.  
 
 
 ## License
