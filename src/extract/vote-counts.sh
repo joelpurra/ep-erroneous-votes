@@ -1,5 +1,6 @@
-#!/bin/bash
-#set -e
+#!/usr/bin/env bash
+set -e
+set -u
 
 # Extract vote counts per voting, and display number of votings and number of votes.
 
