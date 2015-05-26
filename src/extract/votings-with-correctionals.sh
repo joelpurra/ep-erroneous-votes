@@ -14,25 +14,7 @@ def withCorrections:
 			) > 0
 		);
 
-.
-| withCorrections
-| {
-	dossierid,
-	title,
-	ts,
-	abstain: {
-		total: .Abstain.total | tonumber,
-		correctional: .Abstain.correctional
-	},
-	against: {
-		total: .Against.total | tonumber,
-		correctional: .Against.correctional
-	},
-	for: {
-		total: .For.total | tonumber,
-		correctional: .For.correctional
-	}
-}
+withCorrections
 EOF
 
 cat - | jq --unbuffered "$getVotingsWithCorrectionals"
