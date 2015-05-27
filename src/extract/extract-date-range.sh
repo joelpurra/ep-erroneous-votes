@@ -2,17 +2,21 @@
 set -e
 set -u
 
-# Template string for splitting votings into terms
+# Extracts votings withing a date range.
+
 # The placeholders %STARTDATE% and %ENDDATE% are expected to be replaced with either
 # 	- null
 # 	- an ISO 8601 date/time string, in quotes: "2009-07-14T00:00:00Z".
 read -d '' extractDateRangeTemplate <<"EOF" || true
+def isNull:
+	type == "null";
+
 %STARTDATE% as $startTS
 | %ENDDATE% as $endTS
 | select(
-	(($startTS == null) or (.ts >= $startTS))
+	(($startTS | isNull) or (.ts >= $startTS))
 	and
-	(($endTS == null) or (.ts < $endTS))
+	(($endTS | isNull) or (.ts < $endTS))
 )
 EOF
 
