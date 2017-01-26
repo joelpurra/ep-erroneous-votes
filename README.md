@@ -1,6 +1,13 @@
 # [ep-erroneous-votes](https://github.com/joelpurra/ep-erroneous-votes)
 
-For more background information, see the [projects related to the European Parliament](https://joelpurra.com/projects/european-parliament/) page.
+<p class="donate">
+  <a href="https://joelpurra.com/donate/proceed/?amount=5&currency=usd"><kbd>Donate $5 now</kbd></a>
+  <a href="https://joelpurra.com/donate/proceed/?amount=25&currency=usd"><kbd>Donate $25 now</kbd></a>
+  <a href="https://joelpurra.com/donate/proceed/?amount=100&currency=usd&invoice=true"><kbd>Donate $100 now</kbd></a>
+  <a href="https://joelpurra.com/donate/"><kbd>More options</kbd></a>
+</p>
+
+See [projects related to the European Parliament](https://joelpurra.com/projects/european-parliament/) for background information, data, and results.
 
 Using [open data dumps](http://parltrack.euwiki.org/dumps) from [Parltrack](http://parltrack.euwiki.org/) to analyze erroneous, and subsequently corrected, votes by [Members](http://www.europarl.europa.eu/meps/) of the [European Parliament](http://www.europarl.europa.eu/).
 
@@ -37,12 +44,15 @@ Use [`ep-the-corrections`](https://github.com/joelpurra/ep-the-corrections) to c
 
 ## Todo
 
-&#9744; Split up extraction files to several pipe-able pieces, so the entire script doesn't have to run every time. Most useful during development, as a complete run takes too long.
-&#9745; Output aggregate data, such as total and filtered number of votings/votes and corrections, number of MEPs, votes, corrections per MEP, first/last voting dates, etcetera. Use a JSON format, and then update downstream visualization.
+&#9744; Split up extraction files to several pipe-able pieces, so the entire script doesn't have to run every time. Most useful during development, as a complete run takes too long.  
+&#9745; Output aggregate data, such as total and filtered number of votings/votes and corrections, number of MEPs, votes, corrections per MEP, first/last voting dates, etcetera. Use a JSON format, and then update downstream visualization.  
 
 
-## License
 
-Copyright (c) 2014, 2015, 2016, 2017, [Joel Purra](https://joelpurra.com/) All rights reserved.
+---
 
-When using ep-erroneous-votes, comply to the [GNU Affero General Public License 3.0 (AGPL-3.0)](https://en.wikipedia.org/wiki/Affero_General_Public_License). Please see the LICENSE file for details.
+
+
+Copyright &copy; 2014, 2015, 2016, 2017, [Joel Purra](https://joelpurra.com/) All rights reserved.
+
+When using [ep-erroneous-votes](https://github.com/joelpurra/ep-erroneous-votes), comply to the [GNU Affero General Public License 3.0 (AGPL-3.0)](https://en.wikipedia.org/wiki/Affero_General_Public_License). [Your donations are appreciated!](https://joelpurra.com/donate/)
