@@ -25,7 +25,7 @@ do
 	termEnter
 
 	# TODO: add more file-info, like file size (cross platform) and hopefully even $createdDate
-	# http://serverfault.com/questions/342316/safe-way-to-determine-size-of-a-file-using-unix-tools
+	# https://serverfault.com/questions/342316/safe-way-to-determine-size-of-a-file-using-unix-tools
 	# Mac OSX (BSD?): stat -f %z "$infile"
 	# Linux (GNU?): stat -c %s "$infile"
 	# Maybe cksum?

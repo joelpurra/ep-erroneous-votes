@@ -3,7 +3,7 @@ set -e
 set -u
 
 # TODO: see if sortObjectKeysRecursively can be replaced by jq command line flag --sort-keys when a newer version of jq is released?
-# http://stedolan.github.io/jq/manual/#Invokingjq
+# https://stedolan.github.io/jq/manual/#Invokingjq
 # https://github.com/stedolan/jq/issues/169
 # Sort the keys in an object by key name, recursively
 read -d '' sortObjectKeysRecursively <<"EOF" || true
