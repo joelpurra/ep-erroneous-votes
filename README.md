@@ -37,12 +37,12 @@ Use [`ep-the-corrections`](https://github.com/joelpurra/ep-the-corrections) to c
 
 ## Todo
 
-&#9744; Split up extraction files to several pipe-able pieces, so the entire script doesn't have to run every time. Most useful during development, as a complete run takes too long.  
-&#9745; Output aggregate data, such as total and filtered number of votings/votes and corrections, number of MEPs, votes, corrections per MEP, first/last voting dates, etcetera. Use a JSON format, and then update downstream visualization.  
+&#9744; Split up extraction files to several pipe-able pieces, so the entire script doesn't have to run every time. Most useful during development, as a complete run takes too long.
+&#9745; Output aggregate data, such as total and filtered number of votings/votes and corrections, number of MEPs, votes, corrections per MEP, first/last voting dates, etcetera. Use a JSON format, and then update downstream visualization.
 
 
 ## License
 
-Copyright (c) 2014, 2015, [Joel Purra](http://joelpurra.com/) All rights reserved.
+Copyright (c) 2014, 2015, 2016, 2017, [Joel Purra](http://joelpurra.com/) All rights reserved.
 
 When using ep-erroneous-votes, comply to the [GNU Affero General Public License 3.0 (AGPL-3.0)](https://en.wikipedia.org/wiki/Affero_General_Public_License). Please see the LICENSE file for details.
